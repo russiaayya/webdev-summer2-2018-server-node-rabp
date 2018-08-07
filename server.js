@@ -21,9 +21,13 @@ app.use(function(req, res, next) {
 
 var session = require('express-session')
 app.use(session({
-    resave: false,
+    resave: true,
     saveUninitialized: true,
-    secret: 'any string'
+    secret: 'any string',
+    cookie: {
+        maxAge: 1800 * 1000
+    },
+    rolling: true
 }));
 
 app.get('/', function(req, res) {
