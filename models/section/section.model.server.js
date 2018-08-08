@@ -6,6 +6,14 @@ function createSection(section) {
     return sectionModel.create(section);
 }
 
+function updateSection(section) {
+    return sectionModel.update({
+        _id: section._id
+    }, {
+        $set: {name: section.name, maxSeats: section.maxSeats}
+    });
+}
+
 function deleteSection(sectionId) {
     return sectionModel.remove({_id: sectionId});
 }
@@ -35,5 +43,6 @@ module.exports = {
     findSectionsForCourse: findSectionsForCourse,
     decrementSectionSeats: decrementSectionSeats,
     incrementSectionSeats: incrementSectionSeats,
-    deleteSection:deleteSection
+    deleteSection: deleteSection,
+    updateSection: updateSection
 };

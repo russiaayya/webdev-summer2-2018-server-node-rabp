@@ -5,6 +5,7 @@ module.exports = function (app) {
     app.post('/api/section/:sectionId/enrollment', enrollStudentInSection);
     app.get('/api/student/section', findSectionsForStudent);
     app.delete('/api/section/:sectionId', deleteSection);
+    app.put('/api/section/:sectionId', updateSection);
 
     var sectionModel = require('../models/section/section.model.server');
     var enrollmentModel = require('../models/enrollment/enrollment.model.server');
@@ -52,6 +53,15 @@ module.exports = function (app) {
         var section = req.body;
         sectionModel
             .createSection(section)
+            .then(function (section) {
+                res.json(section);
+            })
+    }
+
+    function updateSection(req, res) {
+        var section = req.body;
+        sectionModel
+            .updateSection(section)
             .then(function (section) {
                 res.json(section);
             })
