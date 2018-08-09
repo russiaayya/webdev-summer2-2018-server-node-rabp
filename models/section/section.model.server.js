@@ -38,11 +38,16 @@ function incrementSectionSeats(sectionId) {
     });
 }
 
+function findSectionById(sectionId) {
+    return sectionModel.find({sectionId: sectionId});
+}
+
 module.exports = {
     createSection: createSection,
     findSectionsForCourse: findSectionsForCourse,
     decrementSectionSeats: decrementSectionSeats,
     incrementSectionSeats: incrementSectionSeats,
     deleteSection: deleteSection,
-    updateSection: updateSection
+    updateSection: updateSection,
+    findSectionById: findSectionById
 };
