@@ -2,7 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/webdev-summer2-2018');
-
+// mongoose.connect('mongodb://admin123:admin123@ds215822.mlab.com:15822/webdev-node-server');
 var app = express();
 
 app.use(bodyParser.json());
@@ -61,4 +61,4 @@ userService(app);
 
 require('./services/section.service.server')(app);
 
-app.listen(4000);
+app.listen(process.env.PORT || 4000);

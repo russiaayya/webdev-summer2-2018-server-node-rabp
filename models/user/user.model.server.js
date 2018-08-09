@@ -22,12 +22,17 @@ function findAllUsers() {
     return userModel.find();
 }
 
+function deleteUser(id) {
+    return userModel.remove({_id: id});
+}
+
 var api = {
     createUser: createUser,
     findAllUsers: findAllUsers,
     findUserById: findUserById,
     findUserByCredentials: findUserByCredentials,
-    updateUser: updateUser
+    updateUser: updateUser,
+    deleteUser: deleteUser
 };
 
 module.exports = api;
