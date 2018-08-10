@@ -10,7 +10,7 @@ function updateSection(section) {
     return sectionModel.update({
         _id: section._id
     }, {
-        $set: {name: section.name, maxSeats: section.maxSeats}
+        $set: {name: section.name, maxSeats: section.maxSeats, seats: section.seats}
     });
 }
 

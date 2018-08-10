@@ -59,7 +59,7 @@ module.exports = function (app) {
             })
             .then(function (enrollment) {
                 res.json(enrollment);
-            })
+            });
     }
 
     function findSectionsForCourse(req, res) {
@@ -91,11 +91,12 @@ module.exports = function (app) {
 
     function deleteSection(req, res) {
         var sectionId = req.params['sectionId'];
+        enrollmentModel.disenrollAllInSection(sectionId);
         sectionModel
             .deleteSection(sectionId)
             .then(function (sections) {
                 res.json(sections);
-            })
+            });
     }
 
     function findSectionById(req, res) {
