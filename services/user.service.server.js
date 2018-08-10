@@ -43,7 +43,6 @@ module.exports = function (app) {
     }
 
     function profile(req, res) {
-        // res.send(req.session['currentUser']);
         if(req.session.currentUser) {
             var userId = req.session.currentUser._id;
             userModel.findUserById(userId)
