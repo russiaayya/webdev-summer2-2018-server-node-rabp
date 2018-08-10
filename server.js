@@ -1,6 +1,8 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const URL = "https://webdev-summer2-2018-angular-ra.herokuapp.com";
+// const URL = "http://localhost:4200";
 // mongoose.connect('mongodb://localhost/webdev-summer2-2018');
 mongoose.connect('mongodb://admin123:admin123@ds215822.mlab.com:15822/webdev-node-server');
 var app = express();
@@ -10,7 +12,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin",
-        "http://localhost:4200");
+        URL);
     res.header("Access-Control-Allow-Headers",
         "Origin, X-Requested-With, Content-Type, Accept");
     res.header("Access-Control-Allow-Methods",
