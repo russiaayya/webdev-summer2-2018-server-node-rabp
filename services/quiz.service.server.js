@@ -13,12 +13,12 @@ module.exports = app => {
     }
 
     findQuizById = (req, res) => {
-        quizModel.findQuizById(req.params.quid)
+        quizModel.findQuizById(req.params.qid)
             .then(quiz => res.send(quiz))
     }
 
     updateQuiz = (req, res) => {
-        quizModel.updateQuiz(req.params.quid, req.body)
+        quizModel.updateQuiz(req.params.qid, req.body)
             .then(status => res.send(status))
     }
 
@@ -27,9 +27,24 @@ module.exports = app => {
             .then(status => res.send(status))
     }
 
+    addQuestion = (req, res) => {
+        quizModel
+            .addQuestion(req.params.qid, req.params.questionId)
+            .then(
+                status => res.send(status),
+                error => res.send(error)
+            )
+    }
+
+    submitQuiz = (req, res) => {
+        res.json(req.body)
+    }
+
     app.post('/api/quiz', createQuiz);
     app.get('/api/quiz', findAllQuizzes);
     app.get('/api/quiz/:qid', findQuizById);
     app.put('/api/quiz/:qid', updateQuiz);
     app.delete('/api/quiz/:qid', deleteQuiz);
+    app.put('/api/quiz/:qid/question/:questionId', addQuestion);
+    app.post('/api/quiz/:qid/submission', submitQuiz);
 }
