@@ -4,15 +4,14 @@ module.exports = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'UserModel'
     },
+    username: String,
     quiz: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'QuizModel'
     },
+    submittedTime: Date,
     answers: [{
-        fillBlanksAnswers: {
-            variable: String,
-            value: String
-        },
+        fillBlanksAnswers: Object,
         multipleChoiceAnswer: Number,
         trueFalseAnswer: Boolean,
         essayAnswer: String,

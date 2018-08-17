@@ -1,6 +1,7 @@
 module.exports = app => {
 
     const quizModel = require('../models/quizzes/quiz.model.server');
+    const submissionModel = require('../models/submission/submission.model.server');
 
     createQuiz = (req, res) => {
         quizModel.createQuiz(req.body)
@@ -37,7 +38,57 @@ module.exports = app => {
     }
 
     submitQuiz = (req, res) => {
-        res.json(req.body)
+        let quiz = req.body;
+        let answers = submitAnswers(quiz.questions);
+        let user = req.session.currentUser;
+        console.log('user' + user);
+        let submission = {
+            student: user._id,
+            username: user.username,
+            quiz: req.params.qid,
+            submittedTime: new Date(),
+            answers: answers
+        }
+        submissionModel.createSubmission(submission)
+            .then(status => res.send(status),
+                error => res.send(error))
+    }
+
+    submitAnswers = questions => {
+        let answers = [];
+        questions.map(question => {
+            switch (question.questionType) {
+                case 'FILL_BLANKS':
+                    answers.push({fillBlanksAnswers: question.fillBlanksAnswers});
+                    break;
+                case 'TRUE_FALSE':
+                    answers.push({trueFalseAnswer: question.trueFalseAnswer});
+                    break;
+                case 'CHOICE':
+                    answers.push({multipleChoiceAnswer: question.multipleChoiceAnswer});
+                    break;
+                case 'ESSAY':
+                    answers.push({essayAnswer: question.essayAnswer});
+                    break;
+                default: return answers;
+            }
+        })
+        return answers;
+    }
+
+    findAllSubmissionsForQuiz = (req, res) => {
+        submissionModel.findAllSubmissionsForQuiz(req.params.qid)
+            .then(submissions => res.send(submissions))
+    }
+
+    findSubmissionById = (req, res) => {
+        submissionModel.findSubmissionById(req.params.submissionId)
+            .then(submission => res.send(submission))
+    }
+
+    findSubmissionsForStudentForQuiz = (req, res) => {
+        submissionModel.findSubmissionsForStudentForQuiz(req.session.currentUser._id, req.params.qid)
+            .then(submissions => res.send(submissions))
     }
 
     app.post('/api/quiz', createQuiz);
@@ -47,4 +98,7 @@ module.exports = app => {
     app.delete('/api/quiz/:qid', deleteQuiz);
     app.put('/api/quiz/:qid/question/:questionId', addQuestion);
     app.post('/api/quiz/:qid/submission', submitQuiz);
+    app.get('/api/quiz/:qid/submissions', findAllSubmissionsForQuiz);
+    app.get('/api/quiz/:qid/submission', findSubmissionsForStudentForQuiz);
+    app.get('/api/quiz/:qid/submission/:submissionId', findSubmissionById);
 }
